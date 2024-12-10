@@ -14,6 +14,8 @@ connect();
 // App setup
 app.use(cookieParser());
 app.use(morgan('combined'));
+app.use(express.json());
+app.use(bodyparser.urlencoded({ extended: true }));
 app.set('view engine', 'hbs');
 
 // Public routes
