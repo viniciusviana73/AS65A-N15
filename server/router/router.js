@@ -1,9 +1,13 @@
 const router = require("express").Router(),
     services = require("../services/render"),
-    controller = require("../controllers/controller");
+    controller = require("../controllers/controller"),
+    { jwtAuth } = require("../middlewares/jwtAuth");
 
 // Index
-router.get("/", services.indexRender);
+router.get("/", jwtAuth, services.indexRender);
+router.get("/signin", services.adminLoginRender);
+router.post("/api/admin/login", controller.login);
+router.get("/logout", controller.logout);
 
 // Endpoints Estoque
 router.post('/api/estoque/entrada', controller.insertEntrada);
