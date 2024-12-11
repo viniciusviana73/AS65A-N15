@@ -1,7 +1,41 @@
 const Product = require("../models/Product"),
     Movimentacao = require("../models/StockRecord"),
     Distribuidor = require("../models/Distribuidor"),
+    Admin = require("../models/Admin"),
     mongoose = require("mongoose");
+
+exports.login = async (req, res) => {
+    if (!req.body || !req.body.email || !req.body.password) {
+        return res.status(400).json({ message: 'Requisição inválida' });
+    }
+
+    try {
+        const { email, password } = req.body;
+        const admin = await Admin.findOne({ email });
+
+        if (!admin) {
+            return res.status(404).json({ message: 'Conta admin não encontrada' });
+        }
+
+        const isMatch = await admin.comparePassword(password);
+
+        if (!isMatch) {
+            return res.status(401).json({ message: 'Senha inválida' });
+        }
+
+        const token = jwt.sign({ AdminID: admin._id }, process.env.JWT_SECRET, { expiresIn: "30m" });
+        await res.cookie("token", token);
+
+        return res.status(200).json({ success: true, message: 'Login realizado com sucesso', token });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Houve um erro interno no servidor.", details: error });
+    }
+}
+
+exports.logout = async (req, res) => {
+    return res.clearCookie("token").status(200).redirect("/signin");
+}
 
 exports.insertEntrada = async (req, res) => {
     const { productId, distribuidorId, quantity } = req.body;
