@@ -1,0 +1,413 @@
+{
+	"info": {
+		"_postman_id": "7f21385f-9200-4ae6-98bf-c0892c12d987",
+		"name": "AS65A-N15",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25332729"
+	},
+	"item": [
+		{
+			"name": "Estoque API",
+			"item": [
+				{
+					"name": "/api/estoque/entrada",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productId\": \"60b6c8e8376b8d124f2d5f47\", \r\n    \"distribuidorId\": \"60b6c8e8376b8d124f2d5f49\", \r\n    \"quantity\": 10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5353/api/estoque/entrada",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5353",
+							"path": [
+								"api",
+								"estoque",
+								"entrada"
+							]
+						},
+						"description": "Generated from cURL: curl -X POST http://localhost:5353/api/estoque/entrada \\\r\n-H \"Content-Type: application/json\" \\\r\n-d '{\r\n    \"productId\": \"60b6c8e8376b8d124f2d5f47\", \r\n    \"distribuidorId\": \"60b6c8e8376b8d124f2d5f49\", \r\n    \"quantity\": 10\r\n}'\r\n"
+					},
+					"response": []
+				},
+				{
+					"name": "/api/estoque/saida",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productId\": \"60b6c8e8376b8d124f2d5f47\", \r\n    \"distribuidorId\": \"60b6c8e8376b8d124f2d5f49\", \r\n    \"quantity\": 5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5353/api/estoque/saida",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5353",
+							"path": [
+								"api",
+								"estoque",
+								"saida"
+							]
+						},
+						"description": "Generated from cURL: curl -X POST http://localhost:5353/api/estoque/saida \\\r\n-H \"Content-Type: application/json\" \\\r\n-d '{\r\n    \"productId\": \"60b6c8e8376b8d124f2d5f47\", \r\n    \"distribuidorId\": \"60b6c8e8376b8d124f2d5f49\", \r\n    \"quantity\": 5\r\n}'\r\n"
+					},
+					"response": []
+				},
+				{
+					"name": "/api/estoque",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5353/api/estoque",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5353",
+							"path": [
+								"api",
+								"estoque"
+							]
+						},
+						"description": "Generated from cURL: curl -X GET \"http://localhost:5353/api/estoque\"\r\n"
+					},
+					"response": []
+				},
+				{
+					"name": "/api/estoque?filters",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5353/api/estoque?productId=60b6c8e8376b8d124f2d5f47&distribuidorId=60b6c8e8376b8d124f2d5f49",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5353",
+							"path": [
+								"api",
+								"estoque"
+							],
+							"query": [
+								{
+									"key": "productId",
+									"value": "60b6c8e8376b8d124f2d5f47"
+								},
+								{
+									"key": "distribuidorId",
+									"value": "60b6c8e8376b8d124f2d5f49"
+								}
+							]
+						},
+						"description": "Generated from cURL: curl -X GET \"http://localhost:5353/api/estoque?productId=60b6c8e8376b8d124f2d5f47&distribuidorId=60b6c8e8376b8d124f2d5f49\"\r\n"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Fornecedores",
+			"item": [
+				{
+					"name": "/api/fornecedor",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5353/api/fornecedor",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5353",
+							"path": [
+								"api",
+								"fornecedor"
+							]
+						},
+						"description": "Generated from cURL: curl -X GET http://localhost:5353/api/fornecedor\r\n"
+					},
+					"response": []
+				},
+				{
+					"name": "/api/fornecedor?id={id}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5353/api/fornecedor?id=60b6c8e8376b8d124f2d5f47",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5353",
+							"path": [
+								"api",
+								"fornecedor"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "60b6c8e8376b8d124f2d5f47"
+								}
+							]
+						},
+						"description": "Generated from cURL: curl -X GET http://localhost:5353/api/fornecedor/60b6c8e8376b8d124f2d5f47\r\n"
+					},
+					"response": []
+				},
+				{
+					"name": "/api/fornecedor",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Fornecedor ABC\", \r\n    \"previouslyShipped\": {\r\n        \"hasProducts\": true, \r\n        \"howMany\": 100\r\n    },\r\n    \"neededPerMonth\": 50\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5353/api/fornecedor",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5353",
+							"path": [
+								"api",
+								"fornecedor"
+							]
+						},
+						"description": "Generated from cURL: curl -X POST http://localhost:5353/api/fornecedor \\\r\n-H \"Content-Type: application/json\" \\\r\n-d '{\r\n    \"name\": \"Fornecedor ABC\", \r\n    \"previouslyShipped\": {\r\n        \"hasProducts\": true, \r\n        \"howMany\": 100\r\n    },\r\n    \"neededPerMonth\": 50\r\n}'\r\n"
+					},
+					"response": []
+				},
+				{
+					"name": "/api/fornecedor/id",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Fornecedor XYZ\", \r\n    \"previouslyShipped\": {\r\n        \"hasProducts\": true, \r\n        \"howMany\": 120\r\n    },\r\n    \"neededPerMonth\": 60\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5353/api/fornecedor/60b6c8e8376b8d124f2d5f47",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5353",
+							"path": [
+								"api",
+								"fornecedor",
+								"60b6c8e8376b8d124f2d5f47"
+							]
+						},
+						"description": "Generated from cURL: curl -X PUT http://localhost:5353/api/fornecedor/60b6c8e8376b8d124f2d5f47 \\\r\n-H \"Content-Type: application/json\" \\\r\n-d '{\r\n    \"name\": \"Fornecedor XYZ\", \r\n    \"previouslyShipped\": {\r\n        \"hasProducts\": true, \r\n        \"howMany\": 120\r\n    },\r\n    \"neededPerMonth\": 60\r\n}'\r\n"
+					},
+					"response": []
+				},
+				{
+					"name": "/api/fornecedor/id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5353/api/fornecedor/60b6c8e8376b8d124f2d5f47",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5353",
+							"path": [
+								"api",
+								"fornecedor",
+								"60b6c8e8376b8d124f2d5f47"
+							]
+						},
+						"description": "Generated from cURL: curl -X DELETE http://localhost:5353/api/fornecedor/60b6c8e8376b8d124f2d5f47\r\n"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Produtos",
+			"item": [
+				{
+					"name": "/api/produto",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5353/api/produto",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5353",
+							"path": [
+								"api",
+								"produto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/produto",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Produto Exemplo\",\r\n    \"isDonate\": false,\r\n    \"amount\": 100,\r\n    \"distribuidorID\": \"{distribuidorId}\",\r\n    \"stock\": 50\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5353/api/produto",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5353",
+							"path": [
+								"api",
+								"produto"
+							]
+						},
+						"description": "Generated from cURL: curl -X POST http://localhost:5353/api/produto \\\r\n     -H \"Content-Type: application/json\" \\\r\n     -d '{\r\n          \"name\": \"Produto Exemplo\",\r\n          \"isDonate\": false,\r\n          \"amount\": 100,\r\n          \"distribuidorID\": \"{distribuidorId}\",\r\n          \"stock\": 50\r\n     }'\r\n"
+					},
+					"response": []
+				},
+				{
+					"name": "/api/produto/{id}",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Produto Atualizado\",\r\n    \"isDonate\": true,\r\n    \"amount\": 150,\r\n    \"distribuidorID\": \"{distribuidorId}\",\r\n    \"stock\": 75\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5353/api/produto/{id}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5353",
+							"path": [
+								"api",
+								"produto",
+								"{id}"
+							]
+						},
+						"description": "Generated from cURL: curl -X PUT http://localhost:5353/api/produto/{id} \\\r\n     -H \"Content-Type: application/json\" \\\r\n     -d '{\r\n          \"name\": \"Produto Atualizado\",\r\n          \"isDonate\": true,\r\n          \"amount\": 150,\r\n          \"distribuidorID\": \"{distribuidorId}\",\r\n          \"stock\": 75\r\n     }'\r\n"
+					},
+					"response": []
+				},
+				{
+					"name": "/api/produto/{id}",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5353/api/produto/{id}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5353",
+							"path": [
+								"api",
+								"produto",
+								"{id}"
+							]
+						},
+						"description": "Generated from cURL: curl -X DELETE http://localhost:5353/api/produto/{id} \\\r\n     -H \"Content-Type: application/json\"\r\n"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
