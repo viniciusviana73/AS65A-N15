@@ -7,7 +7,80 @@
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-    ...
+    <div class="container">
+        <h1 class="title">Bem Vindo ao Estoque!</h1>
+        <p class="description">Entre com sua conta e use o serviço do estoque.</p>
+
+        <form class="form">
+            <div class="input-group">
+                <label for="email" class="label"><strong>E-mail</strong></label>
+                <input type="email" id="email" placeholder="Digite o seu e-mail aqui" class="input">
+            </div>
+            <div class="input-group">
+                <label for="password" class="label"><strong>Senha</strong></label>
+                <input type="password" id="password" placeholder="Digite sua senha aqui" class="input">
+                <span class="icon-eye" onclick="togglePassword()">👁️</span>
+            </div>
+
+            <div class="options">
+                <label>
+                    <input type="checkbox" id="remember"> Lembrar
+                </label>
+                <a href="#" class="forgot-password">Esqueceu a senha?</a>
+            </div>
+
+            <button class="btn-login" onclick="window.location.href='estoque.html'">Entrar</button>
+
+        </form>
+
+        <div class="divider">
+            <span class="line"></span>
+            <span class="or">ou</span>
+            <span class="line"></span>
+        </div>
+
+
+        <button class="btn-google">
+            <img src="https://img.icons8.com/?size=100&id=V5cGWnc9R4xj&format=png&color=000000" alt="Ícone do Google"
+                class="google-icon">
+            Inscreva-se com o Google
+        </button>
+
+        <p class="signup-text">
+            Não tem uma conta? <a href="criar_usuario.html" class="signup-link"><strong>Inscrever-se</strong></a>
+        </p>
+
+    </div>
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById("password");
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+            } else {
+                passwordInput.type = "password";
+            }
+        }
+    </script>
+
+    <script>
+    // Função de validação de login
+    function validateLogin() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const errorMessage = document.getElementById("error-message");
+
+    // Validação dos campos
+    if (email === "" || password === "") {
+    errorMessage.style.display = "block"; // Exibe a mensagem de erro
+    return false; // Impede o envio do formulário
+    }
+
+    // Se os campos estiverem preenchidos, redireciona para a página estoque.html
+    window.location.href = 'estoque.html';
+    return false; // Impede o envio do formulário, já que o redirecionamento acontece no JavaScript
+    }
+    </script>
+    
     <script src="/js/script.js"></script>
 </body>
 </html>
