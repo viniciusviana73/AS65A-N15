@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Estoque</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Barra superior -->
+        <div class="top-bar">
+            <div class="search-bar">
+                <!-- Lupa modificada -->
+                <img src="https://img.icons8.com/?size=100&id=7695&format=png&color=000000" alt="Buscar"
+                    class="icon-search">
+                <input type="text" placeholder="Pesquisa..." class="input-search">
+            </div>
+
+            <div class="user-info">
+                <!-- Sino de notificação -->
+                <img src="https://img.icons8.com/?size=100&id=83193&format=png&color=000000" alt="Notificações"
+                    class="icon-bell" id="notification-icon" onclick="toggleNotification()">
+                <span class="divider">|</span>
+                <div class="user-circle">JS</div>
+                <div class="user-details">
+                    <span class="user-name">João Silva</span>
+                    <span class="user-role">Administrador</span>
+                </div>
+                <!-- Botão triangular -->
+                <button class="dropdown-btn" onclick="togglePopup()">▼</button>
+                <!-- Popup de logout -->
+                <div class="popup" id="popup">
+                    <div class="popup-content">
+                        <button class="btn-logout" onclick="logout()">Sair</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Título e Botão Sair -->
+        <div class="page-header">
+            <h1 class="page-title">Controle de estoque de produtos</h1>
+        </div>
+        <hr class="line">
+
+        <!-- Botões -->
+        <div class="actions">
+            <button class="btn-refresh">↻</button>
+            <span class="divider">|</span>
+            <button class="btn-add" onclick="openPopup()">+ Adicionar novo</button>
+        </div>
+
+        <!-- Tabela -->
+        <table class="product-table">
+            <thead>
+                <tr>
+                    <th>ONG's e Distribuidores</th>
+                    <th>Entrada de produtos</th>
+                    <th>Doações</th>
+                    <th>Nº de produtos entregues</th>
+                    <th>Nº de produtos no estoque</th>
+                    <th>Nº total de Produtos</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>ONG A</td>
+                    <td>100</td>
+                    <td>50</td>
+                    <td>30</td>
+                    <td>20</td>
+                    <td>200</td>
+                </tr>
+                <tr>
+                    <td>Distribuidor X</td>
+                    <td>200</td>
+                    <td>70</td>
+                    <td>60</td>
+                    <td>70</td>
+                    <td>400</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal Popup para "Adicionar novo" -->
+    <div class="modal-overlay" id="main-modal">
+        <div class="modal">
+            <span class="close" onclick="closePopup()">&times;</span>
+            <h2>Adicionar novo:</h2>
+            <div class="options">
+                <button onclick="openInstitutionPopup()">ONG / Distribuidor</button>
+                <button onclick="openProductPopup()">Produto</button>
+                <button onclick="openEProductPopup()">Entrada de Produto</button>
+                <button onclick="openSProductPopup()">Saída de Produto</button>
+            </div>
+            <div class="actions">
+                <button class="cancel" onclick="closePopup()">Cancelar</button>
+                <button class="continue">Continuar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Popup para "Adicionar novo ONG / Distribuidor" -->
+    <div class="modal-overlay" id="institution-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Nome da Instituição</h2>
+                <span class="close" onclick="closeInstitutionPopup()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <label for="institution-name">Nome da Instituição</label>
+                <input type="text" id="institution-name" name="institution-name">
+
+                <div class="radio-group">
+                    <label>Já foi enviado produtos para lá?</label>
+                    <div class="radio-item">
+                        <input type="radio" id="yes" name="sent-products" value="yes">
+                        <label for="yes">Sim</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="no" name="sent-products" value="no">
+                        <label for="no">Não</label>
+                    </div>
+                </div>
+
+                <label for="quantity">Se sim, quantos?</label>
+                <input type="text" id="quantity" name="quantity">
+
+                <label for="average-need">Média de necessidade de produtos por mês</label>
+                <input type="text" id="average-need" name="average-need">
+            </div>
+            <div class="modal-footer">
+                <button class="cancel" onclick="closeInstitutionPopup()">Cancelar</button>
+                <button class="add">Adicionar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Popup para "Adicionar novo Produto" -->
+    <div class="modal-overlay" id="product-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Nome do Produto</h2>
+                <span class="close" onclick="closeProductPopup()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <label for="product-name">Nome do Produto</label>
+                <input type="text" id="product-name" name="product-name">
+                <div class="radio-group">
+                    <label>É doação?</label>
+                    <div class="radio-item">
+                        <input type="radio" id="donation-yes" name="donation" value="yes">
+                        <label for="donation-yes">Sim</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="donation-no" name="donation" value="no">
+                        <label for="donation-no">Não</label>
+                    </div>
+                </div>
+
+                <label for="quantity">Quantidade</label>
+                <input type="text" id="quantity" name="quantity">
+            </div>
+            <div class="modal-footer">
+                <button class="cancel" onclick="closeProductPopup()">Cancelar</button>
+                <button class="add">Adicionar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Popup para "Selecione um Produto Entrada" -->
+    <div class="modal-overlay" id="eproduct-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Selecione um Produto</h2>
+                <span class="close" onclick="closeEProductPopup()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <select id="product-entrada" name="product-entrada">
+                    <option value="produto1">Produto 1</option>
+                    <option value="produto2">Produto 2</option>
+                    <option value="produto3">Produto 3</option>
+                    <option value="produto4">Produto 4</option>
+                </select>
+                <label for="quantity">Entrada</label>
+                <input type="text" id="entrada" name="entrada">
+            </div>
+            <div class="modal-footer">
+                <button class="cancel" onclick="closeEProductPopup()">Cancelar</button>
+                <button class="add">Adicionar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Popup para "Selecione um Produto Saída" -->
+    <div class="modal-overlay" id="sproduct-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Selecione um Produto</h2>
+                <span class="close" onclick="closeSProductPopup()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <select id="product-saida" name="product-saida">
+                    <option value="produto1">Produto 1</option>
+                    <option value="produto2">Produto 2</option>
+                    <option value="produto3">Produto 3</option>
+                    <option value="produto4">Produto 4</option>
+                </select>
+
+                <label for="quantity">Saída</label>
+                <input type="text" id="saida" name="saida">
+            </div>
+            <div class="modal-footer">
+                <button class="cancel" onclick="closeSProductPopup()">Cancelar</button>
+                <button class="add">Adicionar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Função para alternar o ícone de notificação
+        function toggleNotification() {
+            const icon = document.getElementById('notification-icon');
+            const currentSrc = icon.src;
+            const notificationIcon1 = 'https://img.icons8.com/?size=100&id=83193&format=png&color=000000';
+            const notificationIcon2 = 'https://img.icons8.com/?size=100&id=urdIu7TqL6dp&format=png&color=000000';
+
+            // Altera o ícone entre os dois
+            if (currentSrc.includes(notificationIcon1)) {
+                icon.src = notificationIcon2;
+            } else {
+                icon.src = notificationIcon1;
+            }
+        }
+
+        // Função para exibir o popup de logout
+        function togglePopup() {
+            const popup = document.getElementById('popup');
+            popup.classList.toggle('show');
+        }
+
+        // Função de logout
+        function logout() {
+            window.location.href = 'index.html';
+        }
+
+        // Fechar o modal principal quando clicar no "X"
+        document.querySelector('.close').addEventListener('click', closePopup);
+
+        // Função para abrir o modal "Adicionar novo"
+        function openPopup() {
+            document.querySelector('#main-modal').style.display = 'flex';
+        }
+
+        // Função para fechar o modal "Adicionar novo"
+        function closePopup() {
+            document.querySelector('#main-modal').style.display = 'none';
+        }
+
+        // Função para abrir o modal "Adicionar novo ONG / Distribuidor"
+        function openInstitutionPopup() {
+            document.querySelector('#institution-modal').style.display = 'flex';
+        }
+
+        // Função para fechar o modal "Adicionar novo ONG / Distribuidor"
+        function closeInstitutionPopup() {
+            document.querySelector('#institution-modal').style.display = 'none';
+        }
+
+        // Função para abrir o modal "Produto"
+        function openProductPopup() {
+            document.querySelector('#product-modal').style.display = 'flex';
+        }
+
+        // Função para fechar o modal "Produto"
+        function closeProductPopup() {
+            document.querySelector('#product-modal').style.display = 'none';
+        }
+
+        // Função para abrir o modal "EntradaProduto"
+        function openEProductPopup() {
+            document.querySelector('#eproduct-modal').style.display = 'flex';
+        }
+
+        // Função para fechar o modal "EntradaProduto"
+        function closeEProductPopup() {
+            document.querySelector('#eproduct-modal').style.display = 'none';
+        }
+
+        // Função para abrir o modal "SaídaProduto"
+        function openSProductPopup() {
+            document.querySelector('#sproduct-modal').style.display = 'flex';
+        }
+
+        // Função para fechar o modal "SaídaProduto"
+        function closeSProductPopup() {
+            document.querySelector('#sproduct-modal').style.display = 'none';
+        }
+    </script>
+
+    <script src="/js/script.js"></script>
+</body>
+
+</html>

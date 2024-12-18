@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crie Seu Usuário</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="title">Crie seu usuário</h1>
+        <p class="description">Vamos inserir seus dados para continuar usando o serviço de estoque!</p>
+
+        <form class="form">
+            <div class="input-group">
+                <label for="name" class="label"><strong>Nome completo</strong></label>
+                <input type="text" id="name" placeholder="Digite seu nome completo" class="input">
+            </div>
+            <div class="input-group">
+                <label for="email" class="label"><strong>E-mail</strong></label>
+                <input type="email" id="email" placeholder="Digite o seu e-mail aqui" class="input">
+            </div>
+            <div class="input-group">
+                <label for="password" class="label"><strong>Senha</strong></label>
+                <input type="password" id="password" placeholder="Digite sua senha aqui" class="input">
+                <span class="icon-eye" onclick="togglePassword()">👁️</span>
+            </div>
+
+            <div class="options">
+                <label class="terms">
+                    <input type="checkbox" id="agree">
+                    Ao se inscrever no CKUDI, você concorda com os <strong>termos e condições</strong>.
+                </label>
+            </div>
+
+            <button class="btn-login" onclick="window.location.href='estoque.html'">Entrar</button>
+
+        </form>
+
+        <div class="divider">
+            <span class="line"></span>
+            <span class="or">ou</span>
+            <span class="line"></span>
+        </div>
+
+        <button class="btn-google">
+            <img src="https://img.icons8.com/?size=100&id=V5cGWnc9R4xj&format=png&color=000000" alt="Ícone do Google"
+                class="google-icon">
+            Escrever com o Google
+        </button>
+
+        <p class="signup-text">
+            Já tem uma conta? <a href="index.html" class="signup-link"><strong>Entrar</strong></a>
+        </p>
+    </div>
+
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById("password");
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+            } else {
+                passwordInput.type = "password";
+            }
+        }
+    </script>
+
+    <script>
+        function validateLogin() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const errorMessage = document.getElementById("error-message");
+
+            if (email === "" || password === "") {
+                errorMessage.style.display = "block";
+                return false;
+            }
+
+            window.location.href = 'estoque.html';
+            return false;
+        }
+    </script>
+
+    <script src="/js/script.js"></script>
+</body>
+
+</html>
