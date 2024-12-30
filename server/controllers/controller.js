@@ -2,7 +2,8 @@ const Product = require("../models/Product"),
     Movimentacao = require("../models/StockRecord"),
     Distribuidor = require("../models/Distribuidor"),
     Admin = require("../models/Admin"),
-    mongoose = require("mongoose");
+    mongoose = require("mongoose"),
+    jwt = require("jsonwebtoken");
 
 exports.login = async (req, res) => {
     if (!req.body || !req.body.email || !req.body.password) {
@@ -26,12 +27,40 @@ exports.login = async (req, res) => {
         const token = jwt.sign({ AdminID: admin._id }, process.env.JWT_SECRET, { expiresIn: "30m" });
         await res.cookie("token", token);
 
-        return res.status(200).json({ success: true, message: 'Login realizado com sucesso', token });
+        return res.status(200).json({ message: 'Login realizado com sucesso', token });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Houve um erro interno no servidor.", details: error });
     }
 }
+
+exports.adminCreate = async (req, res) => {
+    try {
+        const { name, email, password } = req.body;
+
+        if (!name || !email || !password) {
+            return res.status(400).json({ message: "Todos os campos são obrigatórios." });
+        }
+
+        const existingAdmin = await Admin.findOne({ email });
+        if (existingAdmin) return res.status(409).json({ message: "Este e-mail já está em uso." });
+
+        const newAdmin = new Admin({ name, email, password });
+        await newAdmin.save();
+
+        // Token JWT
+        const token = jwt.sign({ AdminID: newAdmin._id }, process.env.JWT_SECRET, { expiresIn: "30m" });
+
+        return res.status(201).json({
+            message: "Administrador criado com sucesso.",
+            admin: { id: newAdmin._id, name: newAdmin.name, email: newAdmin.email },
+            token
+        });
+    } catch (error) {
+        console.error("Erro ao criar admin:", error);
+        return res.status(500).json({ message: "Erro ao criar administrador.", details: error });
+    }
+};
 
 exports.logout = async (req, res) => {
     return res.clearCookie("token").status(200).redirect("/signin");

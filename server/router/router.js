@@ -6,8 +6,11 @@ const router = require("express").Router(),
 // Index
 router.get("/", jwtAuth, services.indexRender);
 router.get("/signin", services.adminLoginRender);
-router.post("/api/admin/login", controller.login);
 router.get("/logout", controller.logout);
+
+// Endpoint Auth
+router.post("/api/admin/login", controller.login);
+router.post("/api/admin/create", controller.adminCreate);
 
 // Endpoints Estoque
 router.post('/api/estoque/entrada', controller.insertEntrada);
