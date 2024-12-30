@@ -12,11 +12,11 @@ exports.jwtAuth = async (req, res, next) => {
         const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
         const admin = await Admin.findById(decodedToken.AdminID);
 
-        if (!admin) return res.render("admin/signin");
+        if (!admin) return res.render("/signin");
 
         next();
     } catch (error) {
         res.clearCookie("token");
-        return res.redirect("/admin/signin");
+        return res.redirect("/signin");
     }
 }
