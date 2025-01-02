@@ -262,7 +262,7 @@ function togglePopup() {
 }
 
 function logout() {
-    window.location.href = 'index.html';
+    window.location.href = 'logout';
 }
 
 document.querySelector('.close').addEventListener('click', closePopup);
