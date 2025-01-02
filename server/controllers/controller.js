@@ -1,5 +1,4 @@
 const Product = require("../models/Product"),
-    Movimentacao = require("../models/StockRecord"),
     Distribuidor = require("../models/Distribuidor"),
     StockRecord = require('../models/StockRecord'),
     Admin = require("../models/Admin"),
@@ -81,7 +80,7 @@ exports.insertEntrada = async (req, res) => {
         product.stock += quantity;
         await product.save();
 
-        await Movimentacao.create({
+        await StockRecord.create({
             productId,
             distribuidorId,
             type: 'entrada',
@@ -112,7 +111,7 @@ exports.insertSaida = async (req, res) => {
         product.stock -= quantity;
         await product.save();
 
-        await Movimentacao.create({
+        await StockRecord.create({
             productId,
             distribuidorId,
             type: 'saida',
@@ -133,7 +132,7 @@ exports.getEstoque = async (req, res) => {
     if (distribuidorId) filter.distribuidorId = distribuidorId;
 
     try {
-        const movimentacoes = await Movimentacao.find(filter)
+        const movimentacoes = await StockRecord.find(filter)
             .populate('productId', 'name')
             .populate('distribuidorId', 'name')
             .sort({ createdAt: -1 });
@@ -170,10 +169,9 @@ exports.getProduct = async (req, res) => {
 
 exports.createProduct = async (req, res) => {
     try {
-        console.log(req.body);
-        const { name, isDonate, amount, distribuidorID, stock } = req.body;
+        const { name, isDonate, distribuidorID, stock } = req.body;
 
-        if (!name || !distribuidorID || amount < 0 || stock < 0) {
+        if (!name || !distribuidorID || stock < 0) {
             return res.status(400).json({ message: 'Dados inválidos para criar o produto.' });
         }
 
@@ -189,7 +187,6 @@ exports.createProduct = async (req, res) => {
         const newProduct = new Product({
             name,
             isDonate,
-            amount,
             distribuidorID,
             stock
         });
@@ -203,16 +200,16 @@ exports.createProduct = async (req, res) => {
 }
 
 exports.updateProduct = async (req, res) => {
-    const { name, isDonate, amount, distribuidorID, stock } = req.body;
+    const { name, isDonate, distribuidorID, stock } = req.body;
 
-    if (!name || !distribuidorID || amount < 0 || stock < 0) {
+    if (!name || !distribuidorID || stock < 0) {
         return res.status(400).json({ message: 'Dados inválidos para editar o produto.' });
     }
 
     try {
         const product = await Product.findByIdAndUpdate(
             req.params.id,
-            { name, isDonate, amount, distribuidorID, stock },
+            { name, isDonate, distribuidorID, stock },
             { new: true }
         );
 
@@ -342,7 +339,7 @@ exports.getTableData = async (req, res) => {
                 }
 
                 if (product.isDonate) {
-                    totalDoacao += product.amount;
+                    totalDoacao += product.stock;
                 }
 
                 totalEstoque += product.stock;

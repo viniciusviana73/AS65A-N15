@@ -11,12 +11,6 @@ const productSchema = new mongoose.Schema({
         required: true,
         default: false
     },
-    amount: {
-        type: Number,
-        required: true,
-        default: 0,
-        min: 0
-    },
     distribuidorID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Distribuidor',
