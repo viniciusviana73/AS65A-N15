@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -135,6 +136,7 @@
             <div class="modal-body">
                 <label for="product-name">Nome do Produto</label>
                 <input type="text" id="product-name" name="product-name">
+
                 <div class="radio-group">
                     <label>É doação?</label>
                     <div class="radio-item">
@@ -148,7 +150,12 @@
                 </div>
 
                 <label for="quantity">Quantidade</label>
-                <input type="text" id="quantity" name="quantity">
+                <input type="number" id="productsAmount" name="quantity">
+
+                <label for="distributor-select">Distribuidor</label>
+                <select id="distributor-select" name="distributor-select">
+                    <option value="">Selecione um distribuidor</option>
+                </select>
             </div>
             <div class="modal-footer">
                 <button class="cancel" onclick="closeProductPopup()">Cancelar</button>
@@ -248,8 +255,35 @@
             document.querySelector('#institution-modal').style.display = 'none';
         }
 
-        function openProductPopup() {
+        async function openProductPopup() {
             document.querySelector('#product-modal').style.display = 'flex';
+            const distributorSelect = document.querySelector('#distributor-select');
+            distributorSelect.innerHTML = '<option value="">Carregando distribuidores...</option>';
+
+            try {
+                const response = await fetch('/api/fornecedor', {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    },
+                });
+
+                if (response.ok) {
+                    const distributors = await response.json();
+                    distributorSelect.innerHTML = '<option value="">Selecione um distribuidor</option>';
+
+                    distributors.forEach(distributor => {
+                        const option = document.createElement('option');
+                        option.value = distributor._id;
+                        option.textContent = distributor.name;
+                        distributorSelect.appendChild(option);
+                    });
+                } else {
+                    distributorSelect.innerHTML = '<option value="">Erro ao carregar distribuidores</option>';
+                }
+            } catch (error) {
+                console.error('Erro ao carregar distribuidores:', error);
+                distributorSelect.innerHTML = '<option value="">Erro ao carregar distribuidores</option>';
+            }
         }
 
         function closeProductPopup() {
