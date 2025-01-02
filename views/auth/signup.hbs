@@ -1,11 +1,127 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Crie Seu Usuário</title>
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
+
 <body>
-    <p>Signup view</p>
+    <div class="container">
+        <h1 class="title">Crie seu usuário</h1>
+        <p class="description">Vamos inserir seus dados para continuar usando o serviço de estoque!</p>
+
+        <form class="form" onsubmit="return createAdmin(event)">
+            <div class="input-group">
+                <label for="name" class="label"><strong>Nome completo</strong></label>
+                <input type="text" id="name" placeholder="Digite seu nome completo" class="input">
+            </div>
+            <div class="input-group">
+                <label for="email" class="label"><strong>E-mail</strong></label>
+                <input type="email" id="email" placeholder="Digite o seu e-mail aqui" class="input">
+            </div>
+            <div class="input-group">
+                <label for="password" class="label"><strong>Senha</strong></label>
+                <input type="password" id="password" placeholder="Digite sua senha aqui" class="input">
+                <span class="icon-eye" onclick="togglePassword()">👁️</span>
+            </div>
+
+            <div class="options">
+                <label class="terms">
+                    <input type="checkbox" id="agree">
+                    Ao se inscrever no CKUDI, você concorda com os <strong>termos e condições</strong>.
+                </label>
+            </div>
+
+            <button type="submit" class="btn-login">Criar Conta</button>
+        </form>
+
+        <div id="error-message" style="display:none; color: red;"></div>
+        <div id="success-message" style="display:none; color: green;"></div>
+
+        <div class="divider">
+            <span class="line"></span>
+            <span class="or">ou</span>
+            <span class="line"></span>
+        </div>
+
+        <button class="btn-google">
+            <img src="https://img.icons8.com/?size=100&id=V5cGWnc9R4xj&format=png&color=000000" alt="Ícone do Google"
+                class="google-icon">
+            Escrever com o Google
+        </button>
+
+        <p class="signup-text">
+            Já tem uma conta? <a href="index.html" class="signup-link"><strong>Entrar</strong></a>
+        </p>
+    </div>
+
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById("password");
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+            } else {
+                passwordInput.type = "password";
+            }
+        }
+    </script>
+
+    <script>
+        async function createAdmin(event) {
+            event.preventDefault();
+
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const agree = document.getElementById("agree").checked;
+            const errorMessage = document.getElementById("error-message");
+            const successMessage = document.getElementById("success-message");
+
+            errorMessage.style.display = "none";
+            successMessage.style.display = "none";
+
+            if (!name || !email || !password) {
+                errorMessage.textContent = "Preencha todos os campos!";
+                errorMessage.style.display = "block";
+                return;
+            }
+
+            if (!agree) {
+                errorMessage.textContent = "Você precisa aceitar os termos e condições.";
+                errorMessage.style.display = "block";
+                return;
+            }
+
+            try {
+                const response = await fetch("/api/admin/create", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ name, email, password }),
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.message || "Erro ao criar conta.");
+                }
+
+                successMessage.textContent = "Conta criada com sucesso!";
+                successMessage.style.display = "block";
+                setTimeout(() => {
+                    window.location.href = "index.html";
+                }, 2000);
+            } catch (error) {
+                console.error("Erro:", error);
+                errorMessage.textContent = error.message;
+                errorMessage.style.display = "block";
+            }
+        }
+    </script>
+
+    <script src="/js/script.js"></script>
 </body>
+
 </html>
