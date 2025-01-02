@@ -259,15 +259,24 @@ exports.getFornecedor = async (req, res) => {
 exports.createFornecedor = async (req, res) => {
     const { name, previouslyShipped, neededPerMonth } = req.body;
 
-    if (!name || !previouslyShipped || !neededPerMonth) {
+    if (!name || (!neededPerMonth || neededPerMonth < 0)) {
         return res.status(400).json({ message: 'Dados inválidos para criar o fornecedor.' });
+    }
+
+    const { hasProducts, howMany } = previouslyShipped;
+
+    if (typeof hasProducts !== 'boolean' || typeof howMany !== 'number' || howMany < 0) {
+        return res.status(400).json({ message: 'Dados inválidos (previouslyShipped).' });
     }
 
     try {
         const newFornecedor = new Distribuidor({
             name,
-            previouslyShipped,
-            neededPerMonth
+            previouslyShipped: {
+                hasProducts,
+                howMany,
+            },
+            neededPerMonth,
         });
 
         await newFornecedor.save();
