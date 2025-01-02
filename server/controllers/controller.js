@@ -200,28 +200,34 @@ exports.createProduct = async (req, res) => {
 }
 
 exports.updateProduct = async (req, res) => {
-    const { name, isDonate, distribuidorID, stock } = req.body;
+    const { stock } = req.body;
 
-    if (!name || !distribuidorID || stock < 0) {
-        return res.status(400).json({ message: 'Dados inválidos para editar o produto.' });
+    if (typeof stock !== 'number') {
+        return res.status(400).json({ message: 'O valor do estoque deve ser um número.' });
     }
 
     try {
-        const product = await Product.findByIdAndUpdate(
-            req.params.id,
-            { name, isDonate, distribuidorID, stock },
-            { new: true }
-        );
+        const product = await Product.findById(req.params.id);
 
         if (!product) {
             return res.status(404).json({ message: 'Produto não encontrado.' });
         }
 
+        const newStock = product.stock + stock;
+
+        if (newStock < 0) {
+            return res.status(400).json({ message: 'Estoque insuficiente para essa operação.' });
+        }
+
+        product.stock = newStock;
+        await product.save();
+
         return res.status(200).json(product);
     } catch (error) {
+        console.error(error);
         return res.status(500).json({ message: 'Erro ao editar o produto.', details: error });
     }
-}
+};
 
 exports.deleteProduct = async (req, res) => {
     try {
