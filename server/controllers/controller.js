@@ -1,6 +1,7 @@
 const Product = require("../models/Product"),
     Movimentacao = require("../models/StockRecord"),
     Distribuidor = require("../models/Distribuidor"),
+    StockRecord = require('../models/StockRecord'),
     Admin = require("../models/Admin"),
     mongoose = require("mongoose"),
     jwt = require("jsonwebtoken");
@@ -314,5 +315,55 @@ exports.deleteFornecedor = async (req, res) => {
         return res.status(200).json({ message: 'Fornecedor deletado com sucesso.' });
     } catch (error) {
         return res.status(500).json({ message: 'Erro ao deletar fornecedor.', details: error });
+    }
+};
+
+exports.getTableData = async (req, res) => {
+    try {
+        const distribuidores = await Distribuidor.find();
+        const tableData = [];
+
+        for (const distribuidor of distribuidores) {
+            const products = await Product.find({ distribuidorID: distribuidor._id });
+            let totalEntrada = 0;
+            let totalDoacao = 0;
+            let totalEntregues = 0;
+            let totalEstoque = 0;
+
+            for (const product of products) {
+                const stockRecords = await StockRecord.find({ productId: product._id });
+
+                for (const record of stockRecords) {
+                    if (record.type === 'entrada') {
+                        totalEntrada += record.quantity;
+                    } else if (record.type === 'saida') {
+                        totalEntregues += record.quantity;
+                    }
+                }
+
+                if (product.isDonate) {
+                    totalDoacao += product.amount;
+                }
+
+                totalEstoque += product.stock;
+            }
+
+
+            const totalProdutos = totalEntrada - totalEntregues + totalEstoque;
+
+            tableData.push({
+                name: distribuidor.name,
+                entrada: totalEntrada,
+                doacao: totalDoacao,
+                entregues: totalEntregues,
+                estoque: totalEstoque,
+                totalProdutos: totalProdutos,
+            });
+        }
+
+        return res.json(tableData);
+    } catch (error) {
+        console.error('Erro ao buscar os dados da tabela:', error);
+        return res.status(500).json({ message: 'Houve um erro ao obter os dados da tabela.', details: error.message, });
     }
 };
