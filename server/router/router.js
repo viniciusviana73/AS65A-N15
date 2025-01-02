@@ -13,20 +13,23 @@ router.post("/api/admin/login", controller.login);
 router.post("/api/admin/create", controller.adminCreate);
 
 // Endpoints Estoque
-router.post('/api/estoque/entrada', controller.insertEntrada);
-router.post('/api/estoque/saida', controller.insertSaida);
-router.get('/api/estoque', controller.getEstoque);
+router.post('/api/estoque/entrada', jwtAuth, controller.insertEntrada);
+router.post('/api/estoque/saida', jwtAuth, controller.insertSaida);
+router.get('/api/estoque', jwtAuth, controller.getEstoque);
 
 // Endpoints Produto
-router.get('/api/produto', controller.getProduct);
-router.post('/api/produto', controller.createProduct);
-router.put('/api/produto/:id', controller.updateProduct);
-router.delete('/api/produto/:id', controller.deleteProduct);
+router.get('/api/produto', jwtAuth, controller.getProduct);
+router.post('/api/produto', jwtAuth, controller.createProduct);
+router.put('/api/produto/:id', jwtAuth, controller.updateProduct);
+router.delete('/api/produto/:id', jwtAuth, controller.deleteProduct);
 
 // Endpoints Fornecedor
-router.get('/api/fornecedor', controller.getFornecedor);
-router.post('/api/fornecedor', controller.createFornecedor);
-router.put('/api/fornecedor/:id', controller.updateFornecedor);
-router.delete('/api/fornecedor/:id', controller.deleteFornecedor);
+router.get('/api/fornecedor', jwtAuth, controller.getFornecedor);
+router.post('/api/fornecedor', jwtAuth, controller.createFornecedor);
+router.put('/api/fornecedor/:id', jwtAuth, controller.updateFornecedor);
+router.delete('/api/fornecedor/:id', jwtAuth, controller.deleteFornecedor);
+
+// Endpoint tabela
+router.get('/api/table', jwtAuth, controller.getTableData);
 
 module.exports = router;
