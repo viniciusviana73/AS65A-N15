@@ -9,6 +9,21 @@ exports.indexRender = async (req, res) => {
         return res.render('index', { admin });
     } catch (error) {
         console.error(error);
+
+        if (error.name === "JsonWebTokenError" || error.name === "TokenExpiredError") {
+            res.clearCookie("token");
+            return res.redirect("/signin");
+        }
+
+        return res.status(500).json({ message: "Houve um erro interno no servidor.", details: error });
+    }
+};
+
+exports.adminSignUpRender = async (req, res) => {
+    try {
+        res.clearCookie("token");
+        return res.render("auth/signup");
+    } catch (error) {
         return res.status(500).json({ message: "Houve um erro interno no servidor.", details: error });
     }
 }

@@ -6,6 +6,7 @@ const router = require("express").Router(),
 // Index
 router.get("/", jwtAuth, services.indexRender);
 router.get("/signin", services.adminLoginRender);
+router.get("/signup", services.adminSignUpRender);
 router.get("/logout", controller.logout);
 
 // Endpoint Auth
